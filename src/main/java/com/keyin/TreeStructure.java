@@ -15,8 +15,12 @@ public class TreeStructure {
     @Column(length = 5000)
     private String treeJson;
 
-    public TreeStructure(String treeJson) {
+    private String userInputs;
+
+    public TreeStructure(String treeJson, String userInputs) {
+
         this.treeJson = treeJson;
+        this.userInputs = userInputs;
     }
 
     public TreeStructure() {
@@ -37,5 +41,13 @@ public class TreeStructure {
 
     public Long getId() {
         return id;
+    }
+
+    public String getUserInputs() {
+        return userInputs;
+    }
+
+    public void setUserInputs(String userInputs) {
+        this.userInputs = userInputs;
     }
 }

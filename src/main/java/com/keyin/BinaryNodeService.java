@@ -10,8 +10,6 @@ import java.util.List;
 @Service
 public class BinaryNodeService {
 
-
-
     @Autowired
     private BinaryNodeRepository binaryNodeRepository;
 
@@ -23,12 +21,10 @@ public class BinaryNodeService {
         for (int number : numbers) {
             root = insertRec(root, number);
         }
-         binaryNodeRepository.save(root);
-        String treeJson = convertTreeToJson(root);
-        saveTreeJson(treeJson);
+        binaryNodeRepository.save(root);
+        String[] jsons = convertTreeToJson(root, numbers);
+        saveTreeJson(jsons[0], jsons[1]);
         return root;
-
-
     }
 
     private BinaryNode insertRec(BinaryNode root, int value) {
@@ -43,12 +39,15 @@ public class BinaryNodeService {
         return root;
     }
 
-    private String convertTreeToJson(BinaryNode root) {
+    private String[] convertTreeToJson(BinaryNode root, List<Integer> numbers) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        return  gson.toJson(root);
+        String treeJson = gson.toJson(root);
+        String userInputsJson = gson.toJson(numbers);
+        return new String[]{treeJson, userInputsJson};
     }
-    private void saveTreeJson(String treejson){
-        TreeStructure treeStructure = new TreeStructure(treejson);
+
+    private void saveTreeJson(String treeJson, String userInputsJson) {
+        TreeStructure treeStructure = new TreeStructure(treeJson, userInputsJson);
         treeStructureRepository.save(treeStructure);
     }
 
